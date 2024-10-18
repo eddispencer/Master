@@ -1,26 +1,20 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using CommonUsages = UnityEngine.XR.CommonUsages;
 
-public class GrabSkalierung : MonoBehaviour
+public class GrabRotation : MonoBehaviour
 {
-    
     [SerializeField] private Transform proxy;
 
     [SerializeField] private Sides grab = Sides.RIGHT;
 
-    private Vector3 anchor;
+    private GameObject anchor;
+
+    private bool isRotationActive = false;
     private Vector3 offset = Vector3.zero;
 
-    private bool isScaleActive = false;
-
     private ActionBasedController controller;
-    
-    private bool isDisabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +24,10 @@ public class GrabSkalierung : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isScaleActive && proxy)
+        if (isRotationActive && proxy)
         {
-            Scale();
-            if (controller && controller.activateAction.action.WasReleasedThisFrame()) {
+            Rotate();
+            if (controller && controller.selectAction.action.WasReleasedThisFrame()) {
                 OnDeactivate();
             }
         }
@@ -41,63 +35,51 @@ public class GrabSkalierung : MonoBehaviour
     
     public void OnActivate(Transform interactor)
     {
-        if (isDisabled) return;
-        
         proxy = interactor.transform;
         controller = interactor.transform.gameObject.GetComponent<ActionBasedController>();
         var dir = Vector3.Dot(transform.right, (proxy.position - transform.position));
         grab = dir <= 0 ? Sides.LEFT : Sides.RIGHT;
         SetAnchor();
-        isScaleActive = true;
-
+        isRotationActive = true;
+        
         offset = transform.position + (transform.rotation * Vector3.Scale(getLocalDir(), transform.localScale / 2f)) - proxy.position;
     }
     
     public void OnDeactivate()
     {
-        isScaleActive = false;
+        isRotationActive = false;
         controller = null;
         ReleaseAnchor();
-    }
-
-    public void OnDisable()
-    {
-        OnDeactivate();
-        isDisabled = true;
-    }
-    
-    public void OnEnable()
-    {
-        isDisabled = false;
     }
 
     [ContextMenu("Set Anker")]
     public void SetAnchor()
     {
-        anchor = transform.position + (transform.rotation * Vector3.Scale(-getLocalDir(), transform.localScale / 2f));
+        anchor = new GameObject("Anchor");
+        anchor.transform.position = transform.position + (transform.rotation * Vector3.Scale(-getLocalDir(), transform.localScale / 2f));
+        anchor.transform.forward = getDir();
+        transform.parent = anchor.transform;
     }
     
     [ContextMenu("Release Anker")]
     public void ReleaseAnchor()
     {
-        anchor = Vector3.zero;
+        transform.parent = null;
+        Destroy(anchor);
+        anchor = null;
     }
 
-    [ContextMenu("Scale")]
-    public void Scale()
+    [ContextMenu("Rotate")]
+    public void Rotate()
     {
-        ScaleWall(proxy.position + offset);
+        RotateWall(proxy.position + offset);
+        
     }
 
-    private void ScaleWall(Vector3 grabPos)
+    private void RotateWall(Vector3 grabPos)
     {
-        Vector3 dir = grabPos - anchor;
-        Vector3 projectedDir = Vector3.Project(dir, getDir());
-        float length = projectedDir.magnitude;
-
-        Vector3 oldScale = transform.localScale;
-        transform.localScale = new Vector3(length, oldScale.y, oldScale.z);
-        transform.position = anchor + getDir() * length / 2f;
+        var rotPos = new Vector3(grabPos.x, anchor.transform.position.y, grabPos.z);
+        anchor.transform.LookAt(rotPos, Vector3.up);
 
     }
 
