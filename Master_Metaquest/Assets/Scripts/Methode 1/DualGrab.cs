@@ -8,20 +8,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class DualGrab : MonoBehaviour
 {
-    [SerializeField] private XRGrabInteractable grabInteractable;
     public UnityEvent onDualGrab;
     public UnityEvent onDualGrabExit;
 
-    private bool isGrabbed;
-    private ActionBasedController controllerOld;
     private List<ActionBasedController> controllers = new List<ActionBasedController>();
 
-    private Material mat;
+    private bool isGrabbing = false;
+    private Vector3 offset = Vector3.zero;
+    private GameObject anchor;
     
     // Start is called before the first frame update
     void Start()
     {
-        mat = GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -37,6 +35,11 @@ public class DualGrab : MonoBehaviour
                 }
             }
         }
+
+        if (isGrabbing)
+        {
+            PositionWall();
+        }
     }
     
     public void OnActivate(Transform interactor)
@@ -49,7 +52,8 @@ public class DualGrab : MonoBehaviour
         controllers.Remove(deactivatedController);
         if (controllers.Count < 2)
         {
-            grabInteractable.enabled = false;
+            ReleaseAnchor();
+            isGrabbing = false;
             onDualGrabExit.Invoke();
         }
     }
@@ -74,11 +78,46 @@ public class DualGrab : MonoBehaviour
     public void StartDualGrab()
     {
         onDualGrab.Invoke();
-        grabInteractable.enabled = true;
-        foreach (var controller in controllers)
-        {
-            var interactor = controller.GetComponent<XRDirectInteractor>();
-            grabInteractable.interactionManager.SelectEnter(interactor, grabInteractable);
-        }
+        isGrabbing = true;
+        SetAnchor();
+        
+    }
+    
+    public void SetAnchor()
+    {
+        Vector3 grabDir = controllers[0].transform.position - controllers[1].transform.position;
+        Vector3 grabCenter = controllers[1].transform.position + (grabDir)/2f;
+
+        grabDir.y = 0;
+        grabDir = grabDir.normalized;
+
+        offset = transform.position - grabCenter;
+        anchor = new GameObject("Anchor");
+        anchor.transform.position = transform.position;
+        anchor.transform.forward = grabDir;
+        transform.parent = anchor.transform;
+    }
+    
+    public void ReleaseAnchor()
+    {
+        transform.parent = null;
+        Destroy(anchor);
+        anchor = null;
+        offset = Vector3.zero;
+    }
+
+    private void PositionWall()
+    {
+        Vector3 grabDir = controllers[0].transform.position - controllers[1].transform.position;
+        Vector3 grabCenter = controllers[1].transform.position + (grabDir)/2f;
+
+        grabDir.y = 0;
+        grabDir = grabDir.normalized;
+
+        var newPos = grabCenter + offset;
+
+        anchor.transform.position = new Vector3(newPos.x, anchor.transform.position.y, newPos.z);
+        anchor.transform.forward = grabDir;
+
     }
 }

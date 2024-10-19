@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Transparent : MonoBehaviour
 {
-    [SerializeField] private Material mat;
+    [SerializeField] private Material transparentMat, opaqueMat;
     [SerializeField] private new Renderer renderer;
     [SerializeField] private Color transparent, opaque;
 
@@ -15,16 +15,19 @@ public class Transparent : MonoBehaviour
             renderer = GetComponent<Renderer>();
         }
 
-        renderer.material = mat;
+        renderer.material = opaqueMat;
+        renderer.material.color = opaque;
     }
 
     public void OnHide()
     {
+        renderer.material = transparentMat;
         renderer.material.color = transparent;
     }
     
     public void OnShow()
     {
+        renderer.material = opaqueMat;
         renderer.material.color = opaque;
     }
 }

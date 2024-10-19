@@ -12,6 +12,7 @@ public class GrabSkalierung : MonoBehaviour
     [SerializeField] private Transform proxy;
 
     [SerializeField] private Sides grab = Sides.RIGHT;
+    [SerializeField] private float sizeToDestroy = 0.1f;
 
     private Vector3 anchor;
     private Vector3 offset = Vector3.zero;
@@ -35,6 +36,7 @@ public class GrabSkalierung : MonoBehaviour
             Scale();
             if (controller && controller.activateAction.action.WasReleasedThisFrame()) {
                 OnDeactivate();
+                DestroyWhenSmall();
             }
         }
     }
@@ -109,6 +111,15 @@ public class GrabSkalierung : MonoBehaviour
     private Vector3 getLocalDir()
     {
         return grab == Sides.LEFT ? Vector3.left : Vector3.right;
+    }
+
+    private void DestroyWhenSmall()
+    {
+        float length = transform.localScale.x;
+        if (length <= sizeToDestroy)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDrawGizmos()

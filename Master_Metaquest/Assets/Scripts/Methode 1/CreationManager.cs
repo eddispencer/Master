@@ -30,15 +30,18 @@ public class CreationManager : MonoBehaviour
         var handDistVec = left.transform.position - right.transform.position;
         if (Vector3.Magnitude(handDistVec) <= activationDistance && controller.activateAction.action.WasPressedThisFrame())
         {
-            CreateWall(right.transform.position + handDistVec / 2, controller);
+            CreateWall(right.transform.position + handDistVec / 2, controller, -handDistVec);
         }
     }
 
-    private void CreateWall(Vector3 pos, ActionBasedController controller)
+    private void CreateWall(Vector3 pos, ActionBasedController controller, Vector3 wallRight)
     {
+        wallRight.y = 0;
+        
         var gScale = Instantiate(wallPrefab, pos, Quaternion.identity).GetComponent<GrabSkalierung>();
-        gScale.OnActivate(controller.transform);
         Vector3 wallPos = gScale.transform.position;
         gScale.transform.position = new Vector3(wallPos.x, gScale.transform.localScale.y / 2f, wallPos.z);
+        gScale.transform.right = wallRight.normalized;
+        gScale.OnActivate(controller.transform);
     }
 }
