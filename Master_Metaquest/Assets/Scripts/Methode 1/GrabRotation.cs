@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,12 @@ public class GrabRotation : MonoBehaviour
             }
         }
     }
-    
+
+    public void OnDestroy()
+    {
+        OnDeactivate();
+    }
+
     public void OnActivate(Transform interactor)
     {
         proxy = interactor.transform;

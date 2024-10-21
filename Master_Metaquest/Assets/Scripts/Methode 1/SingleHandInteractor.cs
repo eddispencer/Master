@@ -10,11 +10,16 @@ public class SingleHandInteractor : MonoBehaviour
     private ActionBasedController controller;
 
     [SerializeField] private float grabRadius = 0.1f;
+
+    [SerializeField] private Transform origin;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!origin)
+        {
+            origin = transform;
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class SingleHandInteractor : MonoBehaviour
 
     private void CheckInteractablesScale()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(origin.position, grabRadius);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.TryGetComponent<GrabSkalierung>(out GrabSkalierung scaler)) {
@@ -48,7 +53,7 @@ public class SingleHandInteractor : MonoBehaviour
     
     private void CheckInteractablesRotate()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(origin.position, grabRadius);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.TryGetComponent<GrabRotation>(out GrabRotation rotator)) {
@@ -60,7 +65,7 @@ public class SingleHandInteractor : MonoBehaviour
     
     private bool CheckInteractablesDualGrab()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(origin.position, grabRadius);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.TryGetComponent<DualGrab>(out DualGrab manager))
@@ -79,6 +84,6 @@ public class SingleHandInteractor : MonoBehaviour
 
     public Collider[] GetCollider()
     {
-        return Physics.OverlapSphere(transform.position, grabRadius);
+        return Physics.OverlapSphere(origin.position, grabRadius);
     }
 }
