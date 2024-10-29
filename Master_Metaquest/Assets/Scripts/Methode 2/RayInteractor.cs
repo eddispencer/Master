@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +10,17 @@ public class RayInteractor : MonoBehaviour
     [SerializeField] private LayerMask positioningLayer;
     
     [SerializeField] private ActionBasedController controller;
-
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private float length = 10f;
+    [SerializeField] private float radius = 0.5f;
+    
+    [SerializeField] private Transform rayOrigin;
+    
     private WallNode selectedNode;
     
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -31,7 +36,7 @@ public class RayInteractor : MonoBehaviour
             selectedNode = null;
         }
         RaycastHit hit;
-        if (selectedNode && Physics.Raycast(transform.position, transform.forward, out hit, 10f, positioningLayer))
+        if (selectedNode && Physics.Raycast(GetRay(), out hit, length, positioningLayer))
         {
             selectedNode.transform.position = hit.point;
         }
@@ -39,14 +44,26 @@ public class RayInteractor : MonoBehaviour
 
     private void TriggerWallNode()
     {
-        
-        Debug.DrawRay(transform.position, transform.forward * 10f, Color.red);
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 10f, interactableLayer))
+        var hits = Physics.SphereCastAll(GetRay(), radius, length, interactableLayer);
+        foreach (var hit in hits)
         {
             selectedNode = hit.transform.GetComponent<WallNode>();
             selectedNode.OnActivate(controller);
-            Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.yellow);
+            return;
         }
+    }
+
+    private Ray GetRay()
+    {
+        var start = rayOrigin.position;
+        var dir = rayOrigin.forward;
+        return new Ray(start, dir);
+    }
+    
+    private Ray GetRayForRenderer()
+    {
+        var start = Vector3.zero;
+        var dir = Vector3.forward;
+        return new Ray(start, dir);
     }
 }
