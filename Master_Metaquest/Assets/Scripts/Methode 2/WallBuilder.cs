@@ -5,8 +5,12 @@ using UnityEngine.Events;
 
 public class WallBuilder : MonoBehaviour
 {
+    
+    [SerializeField] private WallVisualizer visualizer;
     [SerializeField] private Transform wallModel;
-    [SerializeField] private Transform start, end;
+    [SerializeField] public WallNode start, end;
+    
+    [SerializeField] private float deletionDistance = 0.2f;
     
     public UnityEvent onActivate;
     public UnityEvent onDeactivate;
@@ -25,14 +29,15 @@ public class WallBuilder : MonoBehaviour
         if (isManipulated)
         {
             BuildWall();
+            HighlightBeforeDelete();
         }
     }
 
     [ContextMenu("Build Wall")]
     public void BuildWall()
     {
-        var dist = end.position - start.position;
-        var pos = start.position + dist / 2;
+        var dist = end.transform.position - start.transform.position;
+        var pos = start.transform.position + dist / 2;
         var orientation = dist.normalized;
         pos.y = wallModel.position.y;
         
@@ -40,16 +45,49 @@ public class WallBuilder : MonoBehaviour
         wallModel.localScale = new Vector3(dist.magnitude, wallModel.localScale.y, wallModel.localScale.z);
         wallModel.right = orientation;
     }
-    
-    public void OnActivate()
+
+    public void OnUpdate()
     {
-        isManipulated = true;
-        onActivate.Invoke();
+        var wasUpdate = isManipulated != IsManipulated();
+        isManipulated = IsManipulated();
+        if (wasUpdate)
+        {
+            if (isManipulated)
+            {
+                onActivate.Invoke();
+            }
+            else
+            {
+                onDeactivate.Invoke();
+                visualizer.OnIdle();
+                if (IsDeletionImminent())
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
-    
-    public void OnDeactivate()
+
+    private bool IsManipulated()
     {
-        isManipulated = false;
-        onDeactivate.Invoke();
+        return start.isGrabbed || end.isGrabbed;
+    }
+
+    private void HighlightBeforeDelete()
+    {
+        if (IsDeletionImminent())
+        {
+            visualizer.OnDeletion();
+        }
+        else
+        {
+            visualizer.OnManipulate();
+        }
+    }
+
+    private bool IsDeletionImminent()
+    {
+        var dist = end.transform.position - start.transform.position;
+        return dist.magnitude <= deletionDistance;
     }
 }

@@ -33,7 +33,7 @@ public class RayStabilizer : MonoBehaviour
 
 
         var modi = Mathf.InverseLerp(moveBreakpoint, moveBreakpoint2, dir.magnitude);
-        var lerp = Mathf.Lerp(Mathf.Lerp(moveNear, 0.5f, relativeInteractionDistance), moveFar, modi);
+        var lerp = Mathf.Lerp(Mathf.Lerp(moveNear, 0.001f, relativeInteractionDistance), moveFar, modi);
 
         transform.position += dir * (lerp);
 
@@ -47,7 +47,7 @@ public class RayStabilizer : MonoBehaviour
         var rotDif = target * Vector3.forward - rot * Vector3.forward;
         
         var modi = Mathf.InverseLerp(rotBreakpoint, rotBreakpoint2, rotDif.magnitude);
-        var lerp = Mathf.Lerp(Mathf.Lerp(rotNear, 0.1f, relativeInteractionDistance), rotFar, modi);
+        var lerp = Mathf.Lerp(Mathf.Lerp(rotNear, 0.0001f, relativeInteractionDistance), rotFar, modi);
 
         transform.rotation = Quaternion.Slerp(rot, target, lerp);
 

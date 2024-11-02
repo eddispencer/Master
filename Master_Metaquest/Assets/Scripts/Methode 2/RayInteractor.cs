@@ -6,6 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class RayInteractor : MonoBehaviour
 {
+    [SerializeField] private FarCreationManager creationManager;
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private LayerMask positioningLayer;
     
@@ -40,16 +41,63 @@ public class RayInteractor : MonoBehaviour
         {
             selectedNode.transform.position = hit.point;
         }
+        if (controller && controller.activateAction.action.WasPressedThisFrame() && Physics.Raycast(GetRay(), out hit, length, positioningLayer))
+        {
+            creationManager.CreateNode(hit.point);
+        }
+        //Highlight
+        if (!selectedNode)
+        {
+            var ray = GetRay();
+            var hightlightHits = Physics.SphereCastAll(ray, radius, length, interactableLayer);
+            WallNode bestNode = null;
+            float optimalHit = 0;
+            foreach (var interactable in hightlightHits)
+            {
+                var node = interactable.transform.GetComponent<WallNode>();
+                if (!node.isGrabbed)
+                {
+                    var nodeDir = (node.transform.position - ray.origin).normalized;
+                    var dist = Vector3.Dot(ray.direction, nodeDir);
+                    if (dist > optimalHit)
+                    {
+                        optimalHit = dist;
+                        bestNode = node;
+                    }
+                }
+            }
+
+            if (bestNode)
+            {
+                bestNode.GetComponent<Highlighter>().OnHighlight();
+            }
+        }
     }
 
     private void TriggerWallNode()
     {
-        var hits = Physics.SphereCastAll(GetRay(), radius, length, interactableLayer);
+        var ray = GetRay();
+        var hits = Physics.SphereCastAll(ray, radius, length, interactableLayer);
+        WallNode bestNode = null;
+        float optimalHit = 0;
         foreach (var hit in hits)
         {
-            selectedNode = hit.transform.GetComponent<WallNode>();
+            var node = hit.transform.GetComponent<WallNode>();
+            if (!node.isGrabbed)
+            {
+                var nodeDir = (node.transform.position - ray.origin).normalized;
+                var dist = Vector3.Dot(ray.direction, nodeDir);
+                if (dist > optimalHit)
+                {
+                    optimalHit = dist;
+                    bestNode = node;
+                }
+            }
+        }
+        if (bestNode)
+        {
+            selectedNode = bestNode;
             selectedNode.OnActivate(controller);
-            return;
         }
     }
 

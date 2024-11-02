@@ -842,7 +842,7 @@
                 {
                     "name": "",
                     "id": "a5bf6a12-a026-46d1-a793-7252c49aaf66",
-                    "path": "<MetaAimHand>{LeftHand}/indexPressed",
+                    "path": "<MetaAimHand>{LeftHand}/littlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -1121,6 +1121,17 @@
                     "name": "",
                     "id": "9e2fa814-8cbd-4c65-a60d-a1503f30ffd8",
                     "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Grab Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73c1a748-67e9-4be5-8f17-4f6883fab681",
+                    "path": "<MetaAimHand>{LeftHand}/littlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -1671,7 +1682,7 @@
                 {
                     "name": "",
                     "id": "1652c26e-d835-461f-b46b-55b146fd9bba",
-                    "path": "<MetaAimHand>{RightHand}/indexPressed",
+                    "path": "<MetaAimHand>{RightHand}/littlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -1939,6 +1950,17 @@
                     "name": "",
                     "id": "7ecb549e-ab98-4a4b-b979-38068fe3b811",
                     "path": "<XRController>{RightHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Grab Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51f19eda-a750-4f93-8aba-8ec4d7cd1a0f",
+                    "path": "<MetaAimHand>{RightHand}/littlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",

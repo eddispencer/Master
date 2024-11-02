@@ -6,6 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class WallNode : MonoBehaviour
 {
     [SerializeField] private WallBuilder builder;
+    public bool isGrabbed = false;
     
     // Start is called before the first frame update
     void Start()
@@ -21,12 +22,14 @@ public class WallNode : MonoBehaviour
     [ContextMenu("Activate")]
     public void OnActivate(ActionBasedController c)
     {
-        builder.OnActivate();
+        isGrabbed = true;
+        builder.OnUpdate();
     }
     
     [ContextMenu("Deactivate")]
     public void OnDeactivate()
     {
-        builder.OnDeactivate();
+        isGrabbed = false;
+        builder.OnUpdate();
     }
 }
