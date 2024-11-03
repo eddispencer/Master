@@ -730,7 +730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4652f90526a9ac147b13620955b74e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 1450688131}
   creationManager: {fileID: 774412391}
   interactableLayer:
     serializedVersion: 2
@@ -1070,6 +1069,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isGrabbing: 0
 --- !u!114 &235832842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1582,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isGrabbing: 0
 --- !u!114 &261151946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,6 +2257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   left: {fileID: 1463291568}
   right: {fileID: 183020674}
+  leftProxy: {fileID: 43024200}
+  rightProxy: {fileID: 561449819}
   activationDistance: 0.15
   wallPrefab: {fileID: 7036455380207664982, guid: c120a2323b2e16044ac866b8c153f274, type: 3}
 --- !u!4 &774412390
@@ -3492,7 +3495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4652f90526a9ac147b13620955b74e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 1450688131}
   creationManager: {fileID: 774412391}
   interactableLayer:
     serializedVersion: 2

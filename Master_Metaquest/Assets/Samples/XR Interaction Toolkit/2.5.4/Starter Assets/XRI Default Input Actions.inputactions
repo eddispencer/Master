@@ -842,7 +842,7 @@
                 {
                     "name": "",
                     "id": "a5bf6a12-a026-46d1-a793-7252c49aaf66",
-                    "path": "<MetaAimHand>{LeftHand}/littlePressed",
+                    "path": "<MetaAimHand>{LeftHand}/middlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
@@ -1682,7 +1682,7 @@
                 {
                     "name": "",
                     "id": "1652c26e-d835-461f-b46b-55b146fd9bba",
-                    "path": "<MetaAimHand>{RightHand}/littlePressed",
+                    "path": "<MetaAimHand>{RightHand}/middlePressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",

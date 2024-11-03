@@ -6,6 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class CreationManager : MonoBehaviour
 {
     [SerializeField] private ActionBasedController left, right;
+    [SerializeField] private Transform leftProxy, rightProxy;
 
     [SerializeField] private float activationDistance = 0.1f;
 
@@ -27,10 +28,10 @@ public class CreationManager : MonoBehaviour
 
     private void CheckHand(ActionBasedController controller, ActionBasedController other)
     {
-        var handDistVec = left.transform.position - right.transform.position;
+        var handDistVec = leftProxy.position - rightProxy.position;
         if (Vector3.Magnitude(handDistVec) <= activationDistance && controller.activateAction.action.WasPressedThisFrame())
         {
-            CreateWall(right.transform.position + handDistVec / 2, controller, -handDistVec);
+            CreateWall(rightProxy.position + handDistVec / 2, controller, -handDistVec);
         }
     }
 

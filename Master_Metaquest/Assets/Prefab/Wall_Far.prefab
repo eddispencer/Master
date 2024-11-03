@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   builder: {fileID: 7367365417452229026}
   isGrabbed: 0
+  isSelected: 0
+  highlighter: {fileID: 1559283216609395758}
 --- !u!136 &2437955307062270377
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -136,11 +138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 2804615345246031024}
-  defaultMat: {fileID: 2100000, guid: 09fb3ad3860d02b4c9775ec3b1f853ec, type: 2}
+  defaultMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
   highlightMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 1, g: 0, b: 0, a: 1}
   highlightColor: {r: 0.9676024, g: 1, b: 0, a: 0.5019608}
-  duration: 0.2
 --- !u!1 &562483937707898642
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +425,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   builder: {fileID: 7367365417452229026}
   isGrabbed: 0
+  isSelected: 0
+  highlighter: {fileID: 540588492629785970}
 --- !u!136 &3040557385325896816
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -460,8 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 1554871474621261485}
-  defaultMat: {fileID: 2100000, guid: 09fb3ad3860d02b4c9775ec3b1f853ec, type: 2}
+  defaultMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
   highlightMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
-  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 1, g: 0, b: 0, a: 1}
   highlightColor: {r: 0.9676024, g: 1, b: 0, a: 0.5019608}
-  duration: 0.2

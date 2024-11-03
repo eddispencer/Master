@@ -18,6 +18,7 @@ public class RayInteractor : MonoBehaviour
     [SerializeField] private Transform rayOrigin;
     
     private WallNode selectedNode;
+    private WallNode hightlightedNode;
     
     // Start is called before the first frame update
     void Start()
@@ -41,13 +42,17 @@ public class RayInteractor : MonoBehaviour
         {
             selectedNode.transform.position = hit.point;
         }
-        if (controller && controller.activateAction.action.WasPressedThisFrame() && Physics.Raycast(GetRay(), out hit, length, positioningLayer))
+        if (controller && controller.uiPressAction.action.WasPressedThisFrame() && Physics.Raycast(GetRay(), out hit, length, positioningLayer))
         {
             creationManager.CreateNode(hit.point);
         }
         //Highlight
         if (!selectedNode)
         {
+            if (hightlightedNode && hightlightedNode?.gameObject)
+            {
+                hightlightedNode?.OnDeselect();
+            }
             var ray = GetRay();
             var hightlightHits = Physics.SphereCastAll(ray, radius, length, interactableLayer);
             WallNode bestNode = null;
@@ -69,7 +74,8 @@ public class RayInteractor : MonoBehaviour
 
             if (bestNode)
             {
-                bestNode.GetComponent<Highlighter>().OnHighlight();
+                bestNode.OnSelect();
+                hightlightedNode = bestNode;
             }
         }
     }

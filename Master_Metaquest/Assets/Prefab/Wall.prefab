@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 653493291397612134}
   - component: {fileID: 7239935429394143072}
   - component: {fileID: 7315018414313638075}
-  - component: {fileID: 1268339134062786684}
+  - component: {fileID: 9080536981455186528}
+  - component: {fileID: 8609750923052792122}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -177,7 +178,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1268339134062786684}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Transparent, Assembly-CSharp
         m_MethodName: OnHide
         m_Mode: 1
@@ -204,7 +205,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1268339134062786684}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Transparent, Assembly-CSharp
         m_MethodName: OnShow
         m_Mode: 1
@@ -216,7 +217,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1268339134062786684
+  isGrabbing: 0
+--- !u!114 &9080536981455186528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,11 +227,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7036455380207664982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336531802b0c0f341bef6b027f84d037, type: 3}
+  m_Script: {fileID: 11500000, guid: 49de216f44345d448bbb48d2c3fe968a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 102202049445936175}
   transparentMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
   opaqueMat: {fileID: 2100000, guid: 09fb3ad3860d02b4c9775ec3b1f853ec, type: 2}
-  renderer: {fileID: 102202049445936175}
+  deletionMat: {fileID: 2100000, guid: 5944e0ab9f004394d917723dc8f4d9ba, type: 2}
   transparent: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 0.5019608}
-  opaque: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
+  opaque: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
+  delete: {r: 1, g: 0, b: 0, a: 0.5019608}
+--- !u!114 &8609750923052792122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7036455380207664982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649882cf52e81d446a3fee68e55d5713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dualGrab: {fileID: 7315018414313638075}
+  grabSkalierung: {fileID: 653493291397612134}
+  wallVisualizer: {fileID: 9080536981455186528}

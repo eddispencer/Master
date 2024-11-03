@@ -16,6 +16,7 @@ public class WallBuilder : MonoBehaviour
     public UnityEvent onDeactivate;
 
     private bool isManipulated = false;
+    private bool isSelected = false;
     
     // Start is called before the first frame update
     void Start()
@@ -29,8 +30,8 @@ public class WallBuilder : MonoBehaviour
         if (isManipulated)
         {
             BuildWall();
-            HighlightBeforeDelete();
         }
+        HighlightBeforeDelete();
     }
 
     [ContextMenu("Build Wall")]
@@ -50,16 +51,11 @@ public class WallBuilder : MonoBehaviour
     {
         var wasUpdate = isManipulated != IsManipulated();
         isManipulated = IsManipulated();
+        isSelected = IsSelected();
         if (wasUpdate)
         {
-            if (isManipulated)
+            if (!isManipulated)
             {
-                onActivate.Invoke();
-            }
-            else
-            {
-                onDeactivate.Invoke();
-                visualizer.OnIdle();
                 if (IsDeletionImminent())
                 {
                     Destroy(gameObject);
@@ -72,6 +68,11 @@ public class WallBuilder : MonoBehaviour
     {
         return start.isGrabbed || end.isGrabbed;
     }
+    
+    private bool IsSelected()
+    {
+        return start.isSelected || end.isSelected;
+    }
 
     private void HighlightBeforeDelete()
     {
@@ -79,9 +80,13 @@ public class WallBuilder : MonoBehaviour
         {
             visualizer.OnDeletion();
         }
-        else
+        else if (isManipulated || isSelected)
         {
             visualizer.OnManipulate();
+        }
+        else
+        {
+            visualizer.OnIdle();
         }
     }
 

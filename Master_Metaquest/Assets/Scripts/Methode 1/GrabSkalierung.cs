@@ -12,7 +12,7 @@ public class GrabSkalierung : MonoBehaviour
     [SerializeField] private Transform proxy;
 
     [SerializeField] private Sides grab = Sides.RIGHT;
-    [SerializeField] private float sizeToDestroy = 0.1f;
+    [SerializeField] public float sizeToDestroy = 0.1f;
 
     private Vector3 anchor;
     private Vector3 offset = Vector3.zero;

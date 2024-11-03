@@ -7,6 +7,8 @@ public class WallNode : MonoBehaviour
 {
     [SerializeField] private WallBuilder builder;
     public bool isGrabbed = false;
+    public bool isSelected = false;
+    [SerializeField] private Highlighter highlighter;
     
     // Start is called before the first frame update
     void Start()
@@ -24,12 +26,28 @@ public class WallNode : MonoBehaviour
     {
         isGrabbed = true;
         builder.OnUpdate();
+        OnSelect();
     }
     
     [ContextMenu("Deactivate")]
     public void OnDeactivate()
     {
         isGrabbed = false;
+        builder.OnUpdate();
+        OnDeselect();
+    }
+
+    public void OnSelect()
+    {
+        isSelected = true;
+        highlighter.OnHighlight();
+        builder.OnUpdate();
+    }
+    
+    public void OnDeselect()
+    {
+        isSelected = false;
+        highlighter.OnDeactivate();
         builder.OnUpdate();
     }
 }

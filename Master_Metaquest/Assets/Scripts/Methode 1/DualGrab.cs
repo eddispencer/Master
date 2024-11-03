@@ -13,7 +13,7 @@ public class DualGrab : MonoBehaviour
 
     private List<ActionBasedController> controllers = new List<ActionBasedController>();
 
-    private bool isGrabbing = false;
+    public bool isGrabbing = false;
     private Vector3 offset = Vector3.zero;
     private GameObject anchor;
     
