@@ -80,6 +80,15 @@ public class RayInteractor : MonoBehaviour
         }
     }
 
+    public void OnCreate()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(GetRay(), out hit, length, positioningLayer))
+        {
+            creationManager.CreateNode(hit.point);
+        }
+    }
+
     private void TriggerWallNode()
     {
         var ray = GetRay();
