@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7315018414313638075}
   - component: {fileID: 9080536981455186528}
   - component: {fileID: 8609750923052792122}
+  - component: {fileID: 8969358577681653755}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -252,3 +253,16 @@ MonoBehaviour:
   dualGrab: {fileID: 7315018414313638075}
   grabSkalierung: {fileID: 653493291397612134}
   wallVisualizer: {fileID: 9080536981455186528}
+--- !u!114 &8969358577681653755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7036455380207664982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1880cb8f77172494caae9e8cef58a6c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wall: {fileID: 733677797474889754}
